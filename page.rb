@@ -37,8 +37,12 @@ class Page
     parser.fetch_page.xpath(date_xpath)
   end
 
-  def table_avg
-    parser.fetch_page.xpath(TABLE_AVG_FOLLOWERS_XPATH)
+  def table_followers_avg
+    parser.fetch_page.xpath(TABLE_AVG_FOLLOWERS_XPATH)[0].text.tr(',', '')
+  end
+
+  def table_media_avg
+    parser.fetch_page.xpath(TABLE_AVG_FOLLOWERS_XPATH)[2].text.tr(',', '')
   end
 
   private

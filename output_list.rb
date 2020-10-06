@@ -21,10 +21,11 @@ class OutputList
 
   def prepare_list_info
     dataset.each do |info|
+      t_daily = info.table_daily
       row = [
         info.login, info.followers, info.er, info.date,
-        info.table_daily[0].text.tr(',', ''), info.table_avg[0].text.tr(',', ''),
-        info.table_daily[2].text.tr(',', ''), info.table_avg[2].text.tr(',', '')
+        t_daily[0].text.tr(',', ''), info.table_followers_avg,
+        t_daily[2].text.tr(',', ''), info.table_media_avg
       ]
       @rows.push(row)
     end
