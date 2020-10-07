@@ -12,12 +12,23 @@ ER_XPATH = TOP_INFO_BLOCK + '/span[text()="Engagement Rate"]/../span[3]'
 
 TABLE_AVG_FOLLOWERS_XPATH = '//div[contains(text(), "Daily Averages")]/..//span'
 
+VALID_XPATH = '//div[contains(text(), "The API is unable to find this username")]'
+VALID_RESOURCE_XPATH = '//span[@data-translate="checking_browser"]'
+
 class Page
   attr_reader :parser, :date
 
   def initialize(link)
     @parser = PageParser.new(link)
     @date = table_date
+  end
+
+  def valid_page?
+    parser.fetch_page.xpath(VALID_XPATH).empty?
+  end
+
+  def resource_page?
+    parser.fetch_page.xpath(VALID_RESOURCE_XPATH).empty?
   end
 
   def login

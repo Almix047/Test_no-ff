@@ -21,12 +21,16 @@ class OutputList
 
   def prepare_list_info
     dataset.each do |info|
-      t_daily = info.table_daily
-      row = [
-        info.login, info.followers, info.er, info.date,
-        t_daily[0].text.tr(',', ''), info.table_followers_avg,
-        t_daily[2].text.tr(',', ''), info.table_media_avg
-      ]
+      if info.valid_page?
+        t_daily = info.table_daily
+        row = [
+          info.login, info.followers, info.er, info.date,
+          t_daily[0].text.tr(',', ''), info.table_followers_avg,
+          t_daily[2].text.tr(',', ''), info.table_media_avg
+        ]
+      else
+        row = [info.login, 'nevalid']
+      end
       @rows.push(row)
     end
     @rows.unshift(HEADER)

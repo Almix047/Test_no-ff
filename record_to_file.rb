@@ -12,16 +12,25 @@ CACHE = { khloekardashian: '../cache/kho.html',
           beyonce: '../cache/Bey.html',
           kyliejenner: '../cache/kyl.html',
           kimkardashian: '../cache/kim.html',
-          jlo: '../cache/jlo.html' }.freeze
+          jlo: '../cache/jlo.html',
+          balegavasia: '../cache/nvd.html' }.freeze
 
 # Recording scraped Information
 class RecordToFile
   def self.save_as_csv_file
     # Testing mode (offline, work with cache)
-    dataset = INPUT.map do |site|
+    dataset = []
+    INPUT.reject(&:empty?).each do |site|
       cache_page_path = CACHE[site.to_sym]
-      Page.new(cache_page_path) if cache_page_path
-    end .compact
+      if cache_page_path
+        site_page = Page.new(cache_page_path)
+        unless site_page.resource_page?
+          puts 'Need refresh'
+          break
+        end
+        dataset.push(site_page)
+      end
+    end
 
     rows = OutputList.new(dataset).call
 
